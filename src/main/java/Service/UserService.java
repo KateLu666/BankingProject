@@ -1,2 +1,8 @@
-package Service;public class UserService {
+package Service;
+
+public class UserService {
+
+    public void createAccount() {
+        
+    }
 }
