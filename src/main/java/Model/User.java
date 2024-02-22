@@ -7,6 +7,9 @@ public class User {
     private String customerName;
 
     // Constructor
+    public User() {
+    }
+
     public User(int userId, String email, String password, String customerName) {
         this.userId = userId;
         this.email = email;
