@@ -20,16 +20,16 @@ public class Main {
         }).start(8080);
 
         UserDAO userDAO = new UserDAO();
-//        AccountDAO accountDAO = new AccountDAO();
+        AccountDAO accountDAO = new AccountDAO();
 
         UserService userService = new UserService(userDAO);
-//        AccountService accountService = new AccountService(accountDAO);
+        AccountService accountService = new AccountService(accountDAO);
 
         UserController userController = new UserController(app, userService);
-//        AccountController accountController = new AccountController(app, accountService);
+        AccountController accountController = new AccountController(app, accountService);
 
         userController.userEndpoint(app);
-//        accountController.accountEndpoint(app);
+        accountController.accountEndpoint(app);
 
     }
 }

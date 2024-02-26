@@ -75,6 +75,7 @@ public class UserController {
             User user = userService.loginUser(loginCreds);
             if (user != null) {
                 sessionUser = user;
+                ctx.sessionAttribute("sessionUser", sessionUser);
                 ctx.status(200).json(user);
             } else {
                 ctx.status(400).result("Login failed. Check the provided data.");
@@ -86,8 +87,9 @@ public class UserController {
     }
 
     private void logoutUser(Context ctx) {
-        if (sessionUser != null) {
+        if (sessionUser != null || ctx.sessionAttribute("sessionUser") != null ){
             sessionUser = null;
+            ctx.sessionAttribute("sessionUser", null);
             ctx.status(200).result("User logged out.");
         } else {
             ctx.status(400).result("No user is currently logged in.");
