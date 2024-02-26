@@ -1,6 +1,8 @@
 package Service;
 
 import DAO.UserDAO;
+import Model.User;
+import Util.DTO.LoginCreds;
 
 public class UserService {
     private UserDAO userDAO;
@@ -9,43 +11,38 @@ public class UserService {
         this.userDAO = userDAO;
     }
 
-    public boolean registerUser(String email, String password, String customerName) {
-        if (!isValidPassword(password)) {
-            System.out.println("Password must be at least 5 characters long and contain at least one number.");
-            return false;
-        }
-
-        if (!isValidEmail(email)) {
-            System.out.println("Invalid email format.");
-            return false;
-        }
-
-       boolean registrationSuccess = userDAO.registerUser(email, password, customerName);
-        if (registrationSuccess) {
-            System.out.println("User registered successfully for email: " + email);
-            return true;
+    public User registerUser(User user) {
+        User registeredUser = userDAO.registerUser(user.getEmail(), user.getPassword(), user.getCustomerName());
+        if (registeredUser != null) {
+            System.out.println("User registered successfully for email: " + user.getEmail());
+            return registeredUser;
         } else {
-            System.out.println("User registration failed for email: " + email);
-            return false;
+            System.out.println("User registration failed for email: " + user.getEmail());
+            return null;
         }
     }
 
-    public boolean loginUser(String email, String password) {
-        boolean loginSuccess = userDAO.loginUser(email, password);
-        if (loginSuccess) {
-            System.out.println("Login successful for email: " + email);
-            return true;
+    public User loginUser(LoginCreds loginCreds) {
+        User loggedInUser = userDAO.loginUser(loginCreds.getEmail(), loginCreds.getPassword());
+        if (loggedInUser != null) {
+            System.out.println("User logged in successfully for email: " + loginCreds.getEmail());
+            return loggedInUser;
         } else {
-            System.out.println("Login failed for email: " + email);
-            return false;
+            System.out.println("User login failed for email: " + loginCreds.getEmail());
+            return null;
         }
     }
 
-    private boolean isValidPassword(String password) {
+    public boolean emailExists(String email) {
+        return userDAO.emailExists(email);
+    }
+
+    public boolean isValidPassword(String password) {
         return password.length() >= 5 && password.matches(".*\\d.*");
     }
 
-    private boolean isValidEmail(String email) {
+    public boolean isValidEmail(String email) {
         return email.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$");
     }
+
 }

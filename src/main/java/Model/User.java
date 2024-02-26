@@ -17,6 +17,11 @@ public class User {
         this.customerName = customerName;
     }
 
+    public User(String email, String customerName) {
+        this.email = email;
+        this.customerName = customerName;
+    }
+
     // Getter and Setter for userId
     public int getUserId() {
         return userId;
